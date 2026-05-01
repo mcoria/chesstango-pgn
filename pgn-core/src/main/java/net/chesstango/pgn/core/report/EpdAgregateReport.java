@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.engine.Tango;
-import net.chesstango.pgn.core.search.EpdSearchResult;
+import net.chesstango.pgn.core.search.PGNSearchResult;
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
@@ -73,8 +73,8 @@ public class EpdAgregateReport implements Report {
         return this;
     }
 
-    public EpdAgregateReport withEpdSearchResults(String suiteName, List<EpdSearchResult> epdSearchResults) {
-        this.epdAgregateModel = EpdAgregateModel.load(suiteName, epdSearchResults);
+    public EpdAgregateReport withEpdSearchResults(String suiteName, List<PGNSearchResult> PGNSearchResults) {
+        this.epdAgregateModel = EpdAgregateModel.load(suiteName, PGNSearchResults);
         return this;
     }
 

@@ -1,6 +1,6 @@
 package net.chesstango.pgn.core.report;
 
-import net.chesstango.pgn.core.search.EpdSearchResult;
+import net.chesstango.pgn.core.search.PGNSearchResult;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
 
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class EpdSearchModel implements Model<List<EpdSearchResult>> {
+public class EpdSearchModel implements Model<List<PGNSearchResult>> {
     String reportTitle;
 
     int searches;
@@ -22,14 +22,14 @@ public class EpdSearchModel implements Model<List<EpdSearchResult>> {
 
 
     @Override
-    public EpdSearchModel collectStatistics(String reportTitle, List<EpdSearchResult> epdEntries) {
-        List<SearchResult> searchResults = epdEntries.stream().map(EpdSearchResult::getSearchResult).toList();
+    public EpdSearchModel collectStatistics(String reportTitle, List<PGNSearchResult> epdEntries) {
+        List<SearchResult> searchResults = epdEntries.stream().map(PGNSearchResult::getSearchResult).toList();
 
         this.reportTitle = reportTitle;
 
         this.searches = epdEntries.size();
 
-        this.success = (int) epdEntries.stream().filter(EpdSearchResult::isSearchSuccess).count();
+        this.success = (int) epdEntries.stream().filter(PGNSearchResult::isSearchSuccess).count();
 
         this.successRate = ((100 * this.success) / this.searches);
 

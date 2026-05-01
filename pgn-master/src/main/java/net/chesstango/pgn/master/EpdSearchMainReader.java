@@ -29,7 +29,7 @@ public class EpdSearchMainReader {
                 .forEach(epdSearchResponse -> {
                     EpdSearchReportSaver epdSearchReportSaver = new EpdSearchReportSaver(sessionDirectory);
 
-                    epdSearchReportSaver.loadModel(epdSearchResponse.getSessionId(), epdSearchResponse.getEpdSearchResults());
+                    epdSearchReportSaver.loadModel(epdSearchResponse.getSessionId(), epdSearchResponse.getPGNSearchResults());
 
                     CompletableFuture<Void> saveReport = CompletableFuture.supplyAsync(() -> {
                         epdSearchReportSaver.saveReport(epdSearchResponse.getSearchId());

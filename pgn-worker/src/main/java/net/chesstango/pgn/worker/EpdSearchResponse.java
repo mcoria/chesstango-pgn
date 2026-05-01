@@ -3,7 +3,7 @@ package net.chesstango.pgn.worker;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.pgn.core.search.EpdSearchResult;
+import net.chesstango.pgn.core.search.PGNSearchResult;
 
 import java.io.*;
 import java.util.List;
@@ -23,7 +23,7 @@ public class EpdSearchResponse implements Serializable {
     private String sessionId;
     private String searchId;
 
-    private List<EpdSearchResult> epdSearchResults;
+    private List<PGNSearchResult> PGNSearchResults;
 
     public static EpdSearchResponse decodeResponse(byte[] request) {
         try (ByteArrayInputStream bis = new ByteArrayInputStream(request);

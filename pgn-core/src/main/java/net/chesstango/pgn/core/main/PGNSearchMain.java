@@ -2,8 +2,8 @@ package net.chesstango.pgn.core.main;
 
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.pgn.core.report.EpdSearchReportSaver;
-import net.chesstango.pgn.core.search.EpdSearch;
-import net.chesstango.pgn.core.search.EpdSearchResult;
+import net.chesstango.pgn.core.search.PGNSearch;
+import net.chesstango.pgn.core.search.PGNSearchResult;
 import net.chesstango.pgn.core.search.SearchSupplier;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.gardel.epd.EPDDecoder;
@@ -22,7 +22,7 @@ import static net.chesstango.pgn.core.main.Common.SESSION_DATE;
  * @author Mauricio Coria
  */
 @Slf4j
-public class EpdSearchMain implements Runnable {
+public class PGNSearchMain implements Runnable {
     /**
      * Parametros
      * 1. Depth
@@ -60,7 +60,7 @@ public class EpdSearchMain implements Runnable {
 
         Path sessionDirectory = Common.createSessionDirectory(suiteDirectory, depth);
 
-        new EpdSearchMain(epdFiles, depth, timeOut, sessionDirectory)
+        new PGNSearchMain(epdFiles, depth, timeOut, sessionDirectory)
                 .run();
     }
 
@@ -69,7 +69,7 @@ public class EpdSearchMain implements Runnable {
     private final int timeOut;
     private final EpdSearchReportSaver epdSearchReportSaver;
 
-    public EpdSearchMain(List<Path> epdFiles, int depth, int timeOut, Path sessionDirectory) {
+    public PGNSearchMain(List<Path> epdFiles, int depth, int timeOut, Path sessionDirectory) {
         this.epdFiles = epdFiles;
         this.depth = depth;
         this.timeOut = timeOut;
@@ -78,11 +78,11 @@ public class EpdSearchMain implements Runnable {
 
     @Override
     public void run() {
-        EpdSearch epdSearch = new EpdSearch()
+        PGNSearch PGNSearch = new PGNSearch()
                 .setDepth(depth);
 
         if (timeOut > 0) {
-            epdSearch.setTimeOut(timeOut);
+            PGNSearch.setTimeOut(timeOut);
         }
 
         for (Path epdFile : epdFiles) {
@@ -93,11 +93,11 @@ public class EpdSearchMain implements Runnable {
 
                 Stream<EPD> edpEntries = reader.decodeEPDs(epdFile);
 
-                List<EpdSearchResult> epdSearchResults = epdSearch.run(searchSupplier, edpEntries);
+                List<PGNSearchResult> PGNSearchResults = PGNSearch.run(searchSupplier, edpEntries);
 
                 String suiteName = epdFile.getFileName().toString();
 
-                epdSearchReportSaver.loadModel(SESSION_DATE, epdSearchResults);
+                epdSearchReportSaver.loadModel(SESSION_DATE, PGNSearchResults);
 
                 CompletableFuture<Void> saveReport = CompletableFuture.supplyAsync(() -> {
                     epdSearchReportSaver.saveReport(suiteName);

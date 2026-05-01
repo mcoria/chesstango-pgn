@@ -3,7 +3,7 @@ package net.chesstango.pgn.core.report;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.pgn.core.search.EpdSearchResult;
+import net.chesstango.pgn.core.search.PGNSearchResult;
 import net.chesstango.reports.Model;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
@@ -119,7 +119,7 @@ public class SummaryModel implements Model<EpdAgregateModel> {
 
     @Override
     public SummaryModel collectStatistics(String sessionId, EpdAgregateModel input) {
-        List<EpdSearchResult> epdSearchResults = input.epdSearchResults();
+        List<PGNSearchResult> PGNSearchResults = input.PGNSearchResults();
         EpdSearchModel epdSearchModel = input.epdSearchModel();
         NodesDepthModel nodesDepthModel = input.nodesDepthModel();
         NodesTypesModel nodesTypesModel = input.nodesTypesModel();
@@ -163,7 +163,7 @@ public class SummaryModel implements Model<EpdAgregateModel> {
 
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
-        epdSearchResults
+        PGNSearchResults
                 .stream()
                 .map(epdSearchResult -> {
                     SearchSummaryModeDetail searchSummaryModeDetail = new SearchSummaryModeDetail();

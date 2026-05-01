@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @Getter
 @Setter
-public class EpdSearchResult implements Serializable {
+public class PGNSearchResult implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 2L;
@@ -25,7 +25,7 @@ public class EpdSearchResult implements Serializable {
 
     private final SearchResult searchResult;
 
-    public EpdSearchResult(EPD epd, SearchResult searchResult) {
+    public PGNSearchResult(EPD epd, SearchResult searchResult) {
         this.epd = epd;
         this.searchResult = searchResult;
     }

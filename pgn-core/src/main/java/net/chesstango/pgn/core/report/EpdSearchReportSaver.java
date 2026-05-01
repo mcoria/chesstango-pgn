@@ -1,6 +1,6 @@
 package net.chesstango.pgn.core.report;
 
-import net.chesstango.pgn.core.search.EpdSearchResult;
+import net.chesstango.pgn.core.search.PGNSearchResult;
 import net.chesstango.reports.ReportToFile;
 
 import java.nio.file.Path;
@@ -20,8 +20,8 @@ public class EpdSearchReportSaver {
         this.directory = directory;
     }
 
-    public void loadModel(String sessionId, List<EpdSearchResult> epdSearchResults) {
-        this.epdAgregateModel = EpdAgregateModel.load(sessionId, epdSearchResults);
+    public void loadModel(String sessionId, List<PGNSearchResult> PGNSearchResults) {
+        this.epdAgregateModel = EpdAgregateModel.load(sessionId, PGNSearchResults);
         this.summaryModel = new SummaryModel().collectStatistics(sessionId, epdAgregateModel);
     }
 

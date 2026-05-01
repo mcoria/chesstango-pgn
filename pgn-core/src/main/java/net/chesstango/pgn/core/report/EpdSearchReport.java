@@ -2,7 +2,7 @@ package net.chesstango.pgn.core.report;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.pgn.core.search.EpdSearchResult;
+import net.chesstango.pgn.core.search.PGNSearchResult;
 import net.chesstango.reports.Report;
 
 import java.io.PrintStream;
@@ -34,7 +34,7 @@ public class EpdSearchReport implements Report {
         return this;
     }
 
-    public EpdSearchReport withEdpEntries(List<EpdSearchResult> edpEntries) {
+    public EpdSearchReport withEdpEntries(List<PGNSearchResult> edpEntries) {
         this.reportModel = new EpdSearchModel().collectStatistics(reportTitle, edpEntries);
         return this;
     }

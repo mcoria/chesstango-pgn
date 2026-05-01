@@ -20,7 +20,7 @@ import java.util.stream.Stream;
  */
 @Accessors(chain = true)
 @Slf4j
-public class EpdSearch {
+public class PGNSearch {
 
     @Setter
     @Getter(AccessLevel.PACKAGE)
@@ -30,12 +30,12 @@ public class EpdSearch {
     @Getter(AccessLevel.PACKAGE)
     private Integer timeOut;
 
-    public List<EpdSearchResult> run(Supplier<Search> searchSupplier, Stream<EPD> edpEntries) {
-        return new EpdSearchParallel(this).run(searchSupplier, edpEntries);
+    public List<PGNSearchResult> run(Supplier<Search> searchSupplier, Stream<EPD> edpEntries) {
+        return new PGNSearchParallel(this).run(searchSupplier, edpEntries);
     }
 
 
-    public EpdSearchResult run(Search search, EPD epd) {
+    public PGNSearchResult run(Search search, EPD epd) {
         Game game = Game.from(epd);
 
         search.accept(new SetMaxDepthVisitor(depth));
@@ -44,7 +44,7 @@ public class EpdSearch {
 
         searchResult.setId(epd.getId());
 
-        return new EpdSearchResult(epd, searchResult);
+        return new PGNSearchResult(epd, searchResult);
     }
 
 }

@@ -1,8 +1,8 @@
 package net.chesstango.pgn.worker;
 
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.pgn.core.search.EpdSearch;
-import net.chesstango.pgn.core.search.EpdSearchResult;
+import net.chesstango.pgn.core.search.PGNSearch;
+import net.chesstango.pgn.core.search.PGNSearchResult;
 import net.chesstango.pgn.core.search.SearchSupplier;
 import net.chesstango.gardel.epd.EPD;
 
@@ -19,23 +19,23 @@ class EpdSearchWorker implements Function<EpdSearchRequest, EpdSearchResponse> {
     @Override
     public EpdSearchResponse apply(EpdSearchRequest epdSearchRequest) {
         log.info("[{}] Running EPD search entries={}, depth={}, timeOut={}", epdSearchRequest.getSessionId(), epdSearchRequest.getEpdList().size(), epdSearchRequest.getDepth(), epdSearchRequest.getTimeOut());
-        EpdSearch epdSearch = new EpdSearch()
+        PGNSearch PGNSearch = new PGNSearch()
                 .setDepth(epdSearchRequest.getDepth());
 
         if (epdSearchRequest.getTimeOut() > 0) {
-            epdSearch.setTimeOut(epdSearchRequest.getTimeOut());
+            PGNSearch.setTimeOut(epdSearchRequest.getTimeOut());
         }
 
         SearchSupplier searchSupplier = new SearchSupplier();
 
         Stream<EPD> epdStream = epdSearchRequest.getEpdList().stream();
 
-        List<EpdSearchResult> epdSearchResults = epdSearch.run(searchSupplier, epdStream);
+        List<PGNSearchResult> PGNSearchResults = PGNSearch.run(searchSupplier, epdStream);
 
         log.info("[{}] Completed EPD search entries={}, depth={}, timeOut={}", epdSearchRequest.getSessionId(), epdSearchRequest.getEpdList().size(), epdSearchRequest.getDepth(), epdSearchRequest.getTimeOut());
 
         return new EpdSearchResponse()
-                .setEpdSearchResults(epdSearchResults)
+                .setPGNSearchResults(PGNSearchResults)
                 .setSessionId(epdSearchRequest.getSessionId())
                 .setSearchId(epdSearchRequest.getSearchId());
     }

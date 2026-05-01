@@ -2,7 +2,7 @@ package net.chesstango.pgn.core.report;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.pgn.core.search.EpdSearchResult;
+import net.chesstango.pgn.core.search.PGNSearchResult;
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
@@ -37,7 +37,7 @@ public class SummaryReport implements Report {
         return this;
     }
 
-    public SummaryReport withEpdSearchResults(List<EpdSearchResult> epdSearchResults,
+    public SummaryReport withEpdSearchResults(List<PGNSearchResult> PGNSearchResults,
                                               EpdSearchModel epdSearchModel,
                                               BoardModel boardModel,
                                               NodesDepthModel nodesDepthModel,
@@ -48,7 +48,7 @@ public class SummaryReport implements Report {
                                               PrincipalVariationIterationModel principalVariationIterationReportModel,
                                               TranspositionModel transpositionModel) {
 
-        reportModel = new SummaryModel().collectStatistics(SESSION_DATE, new EpdAgregateModel(epdSearchResults, epdSearchModel, boardModel, nodesDepthModel, nodesTypesModel, evaluationIterationModel, principalVariationReportModel, principalVariationIterationReportModel, evaluationReportModel, transpositionModel));
+        reportModel = new SummaryModel().collectStatistics(SESSION_DATE, new EpdAgregateModel(PGNSearchResults, epdSearchModel, boardModel, nodesDepthModel, nodesTypesModel, evaluationIterationModel, principalVariationReportModel, principalVariationIterationReportModel, evaluationReportModel, transpositionModel));
 
         return this;
     }

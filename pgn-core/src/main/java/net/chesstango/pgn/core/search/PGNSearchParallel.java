@@ -23,23 +23,23 @@ import java.util.stream.Stream;
  */
 
 @Slf4j
-class EpdSearchParallel {
+class PGNSearchParallel {
 
-    final private EpdSearch epdSearch;
+    final private PGNSearch PGNSearch;
 
-    EpdSearchParallel(EpdSearch epdSearch) {
-        this.epdSearch = epdSearch;
+    PGNSearchParallel(PGNSearch PGNSearch) {
+        this.PGNSearch = PGNSearch;
     }
 
 
-    List<EpdSearchResult> run(Supplier<Search> searchSupplier, Stream<EPD> edpEntries) {
+    List<PGNSearchResult> run(Supplier<Search> searchSupplier, Stream<EPD> edpEntries) {
         final int availableCores = Runtime.getRuntime().availableProcessors();
 
         AtomicInteger pendingJobsCounter = new AtomicInteger(0);
 
         List<SearchJob> activeJobs = Collections.synchronizedList(new LinkedList<>());
 
-        List<EpdSearchResult> epdSearchResults = Collections.synchronizedList(new LinkedList<>());
+        List<PGNSearchResult> PGNSearchResults = Collections.synchronizedList(new LinkedList<>());
 
         BlockingQueue<Search> searchPool = new LinkedBlockingDeque<>(availableCores);
         for (int i = 0; i < availableCores; i++) {
@@ -63,9 +63,9 @@ class EpdSearchParallel {
                         // Resetting search object before using it
                         search.reset();
 
-                        EpdSearchResult epdSearchResult = epdSearch.run(search, epd);
+                        PGNSearchResult PGNSearchResult = PGNSearch.run(search, epd);
 
-                        epdSearchResults.add(epdSearchResult);
+                        PGNSearchResults.add(PGNSearchResult);
 
                         searchPool.put(searchJob.search);
 
@@ -88,12 +88,12 @@ class EpdSearchParallel {
             });
 
             try {
-                if (epdSearch.getTimeOut() != null) {
+                if (PGNSearch.getTimeOut() != null) {
                     while (pendingJobsCounter.get() > 0) {
                         Thread.sleep(500);
                         activeJobs.forEach(searchJob -> {
-                            if (searchJob.elapsedMillis() >= epdSearch.getTimeOut()) {
-                                throw new RuntimeException(String.format("Cambiarme %s", epdSearch.getTimeOut()));
+                            if (searchJob.elapsedMillis() >= PGNSearch.getTimeOut()) {
+                                throw new RuntimeException(String.format("Cambiarme %s", PGNSearch.getTimeOut()));
                                 //searchJob.search.stopSearching();
                             }
                         });
@@ -106,7 +106,7 @@ class EpdSearchParallel {
         }
 
 
-        if (epdSearchResults.isEmpty()) {
+        if (PGNSearchResults.isEmpty()) {
             throw new RuntimeException("No edp entry was processed");
         }
 
@@ -114,9 +114,9 @@ class EpdSearchParallel {
             throw new RuntimeException(String.format("Todavia siguen pendiente %d busquedas", pendingJobsCounter.get()));
         }
 
-        epdSearchResults.sort(Comparator.comparing(o -> o.getEpd().getId()));
+        PGNSearchResults.sort(Comparator.comparing(o -> o.getEpd().getId()));
 
-        return epdSearchResults;
+        return PGNSearchResults;
     }
 
 

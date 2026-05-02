@@ -30,7 +30,7 @@ public class EpdAgregateReport implements Report {
 
         out.printf("Version: %s\n", Tango.ENGINE_VERSION);
 
-        new EpdSearchReport()
+        new PGNSearchReport()
                 .setReportModel(epdAgregateModel.epdSearchModel())
                 .printReport(out);
 

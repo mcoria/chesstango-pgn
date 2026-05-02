@@ -9,14 +9,14 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class EpdSearchReportSaver {
+public class PGNSearchReportSaver {
     private final Path directory;
 
     private EpdAgregateModel epdAgregateModel;
     private SummaryModel summaryModel;
 
 
-    public EpdSearchReportSaver(Path directory) {
+    public PGNSearchReportSaver(Path directory) {
         this.directory = directory;
     }
 

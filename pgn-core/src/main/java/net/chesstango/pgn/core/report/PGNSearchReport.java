@@ -11,22 +11,22 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class EpdSearchReport implements Report {
+public class PGNSearchReport implements Report {
 
     private PrintStream out;
 
     @Setter
     @Accessors(chain = true)
-    private String reportTitle = "EpdSearchReport";
+    private String reportTitle = "PGNSearchReport";
 
     @Setter
     @Accessors(chain = true)
-    private EpdSearchModel reportModel;
+    private PGNSearchModel reportModel;
 
     @Override
-    public EpdSearchReport printReport(PrintStream output) {
+    public PGNSearchReport printReport(PrintStream output) {
         out = output;
-        new EpdSearchPrinter()
+        new PGNSearchPrinter()
                 .setReportTitle(reportTitle)
                 .setReportModel(reportModel)
                 .setOut(out)
@@ -34,8 +34,8 @@ public class EpdSearchReport implements Report {
         return this;
     }
 
-    public EpdSearchReport withEdpEntries(List<PGNSearchResult> edpEntries) {
-        this.reportModel = new EpdSearchModel().collectStatistics(reportTitle, edpEntries);
+    public PGNSearchReport withEdpEntries(List<PGNSearchResult> edpEntries) {
+        this.reportModel = new PGNSearchModel().collectStatistics(reportTitle, edpEntries);
         return this;
     }
 

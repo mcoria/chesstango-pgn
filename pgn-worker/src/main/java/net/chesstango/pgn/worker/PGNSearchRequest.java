@@ -3,7 +3,7 @@ package net.chesstango.pgn.worker;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.pgn.core.search.PGNSearchResult;
+import net.chesstango.gardel.epd.EPD;
 
 import java.io.*;
 import java.util.List;
@@ -14,27 +14,29 @@ import java.util.List;
 @Accessors(chain = true)
 @Getter
 @Setter
-public class EpdSearchResponse implements Serializable {
-    public final static String PGN_RESPONSES_QUEUE_NAME = "pgn_responses";
+public class PGNSearchRequest implements Serializable {
+    public final static String PGN_REQUESTS_QUEUE_NAME = "pgn_requests";
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     private String sessionId;
     private String searchId;
+    private int depth;
+    private int timeOut;
 
-    private List<PGNSearchResult> PGNSearchResults;
+    private List<EPD> epdList;
 
-    public static EpdSearchResponse decodeResponse(byte[] request) {
+    public static PGNSearchRequest decodeRequest(byte[] request) {
         try (ByteArrayInputStream bis = new ByteArrayInputStream(request);
              ObjectInputStream ois = new ObjectInputStream(bis);) {
-            return (EpdSearchResponse) ois.readObject();
+            return (PGNSearchRequest) ois.readObject();
         } catch (ClassNotFoundException | IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public byte[] encodeResponse() {
+    public byte[] encodeRequest() {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
              ObjectOutputStream oos = new ObjectOutputStream(bos);) {
             oos.writeObject(this);

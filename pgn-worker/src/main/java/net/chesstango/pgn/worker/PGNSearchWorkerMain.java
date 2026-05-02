@@ -12,17 +12,17 @@ import java.util.concurrent.TimeoutException;
  * @author Mauricio Coria
  */
 @Slf4j
-public class EpdSearchWorkerMain implements Runnable {
+public class PGNSearchWorkerMain implements Runnable {
 
     public static void main(String[] args) throws Exception {
         String rabbitHost = System.getenv("RABBIT_HOST");
 
-        new EpdSearchWorkerMain(rabbitHost).run();
+        new PGNSearchWorkerMain(rabbitHost).run();
     }
 
     private final String rabbitHost;
 
-    public EpdSearchWorkerMain(String rabbitHost) {
+    public PGNSearchWorkerMain(String rabbitHost) {
         if (rabbitHost == null) {
             throw new IllegalArgumentException("rabbitHost and enginesCatalog must be provided");
         }
@@ -51,14 +51,14 @@ public class EpdSearchWorkerMain implements Runnable {
 
             ResponseProducer responseProducer = new ResponseProducer(channel);
 
-            EpdSearchWorker epdSearchWorker = new EpdSearchWorker();
+            PGNSearchWorker epdSearchWorker = new PGNSearchWorker();
 
             log.info("Waiting for MatchRequest");
 
             do {
-                EpdSearchRequest request = requestConsumer.readMessage();
-                log.info("[{}] Received EpdSearchRequest: {}", request.getSessionId(), request.getSearchId());
-                EpdSearchResponse response = epdSearchWorker.apply(request);
+                PGNSearchRequest request = requestConsumer.readMessage();
+                log.info("[{}] Received PGNSearchRequest: {}", request.getSessionId(), request.getSearchId());
+                PGNSearchResponse response = epdSearchWorker.apply(request);
                 responseProducer.publish(response);
             } while (true);
 

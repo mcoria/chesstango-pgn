@@ -38,7 +38,7 @@ public class SummaryReport implements Report {
     }
 
     public SummaryReport withEpdSearchResults(List<PGNSearchResult> PGNSearchResults,
-                                              EpdSearchModel epdSearchModel,
+                                              PGNSearchModel epdSearchModel,
                                               BoardModel boardModel,
                                               NodesDepthModel nodesDepthModel,
                                               NodesTypesModel nodesTypesModel,

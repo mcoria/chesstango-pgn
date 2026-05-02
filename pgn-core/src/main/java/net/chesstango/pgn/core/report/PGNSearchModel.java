@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class EpdSearchModel implements Model<List<PGNSearchResult>> {
+public class PGNSearchModel implements Model<List<PGNSearchResult>> {
     String reportTitle;
 
     int searches;
@@ -22,7 +22,7 @@ public class EpdSearchModel implements Model<List<PGNSearchResult>> {
 
 
     @Override
-    public EpdSearchModel collectStatistics(String reportTitle, List<PGNSearchResult> epdEntries) {
+    public PGNSearchModel collectStatistics(String reportTitle, List<PGNSearchResult> epdEntries) {
         List<SearchResult> searchResults = epdEntries.stream().map(PGNSearchResult::getSearchResult).toList();
 
         this.reportTitle = reportTitle;

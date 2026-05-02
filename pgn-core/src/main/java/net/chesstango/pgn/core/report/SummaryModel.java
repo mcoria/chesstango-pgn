@@ -120,7 +120,7 @@ public class SummaryModel implements Model<EpdAgregateModel> {
     @Override
     public SummaryModel collectStatistics(String sessionId, EpdAgregateModel input) {
         List<PGNSearchResult> PGNSearchResults = input.PGNSearchResults();
-        EpdSearchModel epdSearchModel = input.epdSearchModel();
+        PGNSearchModel epdSearchModel = input.epdSearchModel();
         NodesDepthModel nodesDepthModel = input.nodesDepthModel();
         NodesTypesModel nodesTypesModel = input.nodesTypesModel();
         EvaluationModel evaluationReportModel = input.evaluationReportModel();

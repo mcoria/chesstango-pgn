@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-import static net.chesstango.pgn.worker.EpdSearchRequest.PGN_REQUESTS_QUEUE_NAME;
+import static net.chesstango.pgn.worker.PGNSearchRequest.PGN_REQUESTS_QUEUE_NAME;
 
 /**
  * @author Mauricio Coria
@@ -21,14 +21,14 @@ class RequestConsumer {
     }
 
 
-    public EpdSearchRequest readMessage() throws IOException {
+    public PGNSearchRequest readMessage() throws IOException {
         do {
             GetResponse response = channel.basicGet(PGN_REQUESTS_QUEUE_NAME, true);
             if (response != null) {
-                return EpdSearchRequest.decodeRequest(response.getBody());
+                return PGNSearchRequest.decodeRequest(response.getBody());
             } else {
                 try {
-                    log.info("Waiting for EpdSearchRequest");
+                    log.info("Waiting for PGNSearchRequest");
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     log.error("Interrupted while waiting for message", e);

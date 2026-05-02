@@ -1,8 +1,8 @@
 package net.chesstango.pgn.master;
 
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.pgn.core.report.EpdSearchReportSaver;
-import net.chesstango.pgn.worker.EpdSearchResponse;
+import net.chesstango.pgn.core.report.PGNSearchReportSaver;
+import net.chesstango.pgn.worker.PGNSearchResponse;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,17 +17,17 @@ import java.util.stream.Stream;
  * @author Mauricio Coria
  */
 @Slf4j
-public class EpdSearchMainReader {
+public class PGNSearchMainReader {
 
     public static void main(String[] args) {
         Path sessionDirectory = Path.of("C:\\java\\projects\\chess\\chess-utils\\testing\\EPD\\database\\depth-6-2026-05-01-15-31-v1.7.0-SNAPSHOT");
 
-        Stream<EpdSearchResponse> epdSearchResponseStream = readEpdSearchResponses(sessionDirectory);
+        Stream<PGNSearchResponse> epdSearchResponseStream = readEpdSearchResponses(sessionDirectory);
 
         epdSearchResponseStream
                 .parallel()
                 .forEach(epdSearchResponse -> {
-                    EpdSearchReportSaver epdSearchReportSaver = new EpdSearchReportSaver(sessionDirectory);
+                    PGNSearchReportSaver epdSearchReportSaver = new PGNSearchReportSaver(sessionDirectory);
 
                     epdSearchReportSaver.loadModel(epdSearchResponse.getSessionId(), epdSearchResponse.getPGNSearchResults());
 
@@ -51,10 +51,10 @@ public class EpdSearchMainReader {
         log.info("Work completed");
     }
 
-    private static Stream<EpdSearchResponse> readEpdSearchResponses(Path sessionDirectory) {
+    private static Stream<PGNSearchResponse> readEpdSearchResponses(Path sessionDirectory) {
         File directory = sessionDirectory.toFile();
 
-        log.info("Loading EpdSearchResponse from {}", directory.getAbsolutePath());
+        log.info("Loading PGNSearchResponse from {}", directory.getAbsolutePath());
 
         File[] files = directory.listFiles((dir, name) -> name.endsWith(".ser"));
 
@@ -67,7 +67,7 @@ public class EpdSearchMainReader {
                 .map(file -> {
                     try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
                         log.info("Deserializing file: {}", file.getName());
-                        return (EpdSearchResponse) ois.readObject();
+                        return (PGNSearchResponse) ois.readObject();
                     } catch (Exception e) {
                         log.error("Failed to deserialize file: " + file, e);
                         return null;

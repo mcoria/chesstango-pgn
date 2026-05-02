@@ -2,7 +2,7 @@ package net.chesstango.pgn.master;
 
 import com.rabbitmq.client.ConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.pgn.worker.EpdSearchRequest;
+import net.chesstango.pgn.worker.PGNSearchRequest;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.gardel.epd.EPDDecoder;
 
@@ -22,7 +22,7 @@ import static net.chesstango.pgn.master.Common.listEpdFiles;
  * @author Mauricio Coria
  */
 @Slf4j
-public class EpdSearchMainProducer implements Runnable {
+public class PGNSearchMainProducer implements Runnable {
     /**
      * Parametros
      * 1. Depth
@@ -60,7 +60,7 @@ public class EpdSearchMainProducer implements Runnable {
 
         List<Path> epdFiles = listEpdFiles(suiteDirectory, filePattern);
 
-        new EpdSearchMainProducer(sessionId, epdFiles, depth, timeOut).run();
+        new PGNSearchMainProducer(sessionId, epdFiles, depth, timeOut).run();
     }
 
     private final String rabbitHost;
@@ -71,7 +71,7 @@ public class EpdSearchMainProducer implements Runnable {
     private final int timeOut;
 
 
-    public EpdSearchMainProducer(String sessionId, List<Path> epdFiles, int depth, int timeOut) {
+    public PGNSearchMainProducer(String sessionId, List<Path> epdFiles, int depth, int timeOut) {
         this.rabbitHost = "localhost";
         this.sessionId = sessionId;
         this.epdFiles = epdFiles;
@@ -83,14 +83,14 @@ public class EpdSearchMainProducer implements Runnable {
     public void run() {
         log.info("Starting");
 
-        List<EpdSearchRequest> epdSearchRequests = createEpdSearchRequests();
+        List<PGNSearchRequest> epdSearchRequests = createEpdSearchRequests();
 
         try (ExecutorService executorService = Executors.newSingleThreadExecutor()) {
             ConnectionFactory factory = new ConnectionFactory();
             factory.setHost(rabbitHost);
             factory.setSharedExecutor(executorService);
 
-            try (EpdSearchProducer epdSearchProducer = new EpdSearchProducer(factory)) {
+            try (PGNSearchProducer epdSearchProducer = new PGNSearchProducer(factory)) {
                 epdSearchRequests.forEach(epdSearchProducer::publish);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -101,8 +101,8 @@ public class EpdSearchMainProducer implements Runnable {
     }
 
 
-    private List<EpdSearchRequest> createEpdSearchRequests() {
-        List<EpdSearchRequest> epdSearchRequests = new LinkedList<>();
+    private List<PGNSearchRequest> createEpdSearchRequests() {
+        List<PGNSearchRequest> epdSearchRequests = new LinkedList<>();
 
         EPDDecoder reader = new EPDDecoder();
         for (Path epdFile : epdFiles) {
@@ -111,7 +111,7 @@ public class EpdSearchMainProducer implements Runnable {
 
                 Stream<EPD> edpEntries = reader.decodeEPDs(epdFile);
 
-                EpdSearchRequest epdSearchRequest = new EpdSearchRequest()
+                PGNSearchRequest epdSearchRequest = new PGNSearchRequest()
                         .setSessionId(sessionId)
                         .setSearchId(epdFile.getFileName().toString())
                         .setEpdList(edpEntries.toList())

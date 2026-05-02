@@ -2,7 +2,7 @@ package net.chesstango.pgn.master;
 
 import com.rabbitmq.client.ConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.pgn.worker.EpdSearchResponse;
+import net.chesstango.pgn.worker.PGNSearchResponse;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import static net.chesstango.pgn.master.Common.createSessionDirectory;
  * @author Mauricio Coria
  */
 @Slf4j
-public class EpdSearchMainConsumer implements Runnable {
+public class PGNSearchMainConsumer implements Runnable {
 
     public static void main(String[] args) throws Exception {
         String rabbitHost = args[0];
@@ -33,13 +33,13 @@ public class EpdSearchMainConsumer implements Runnable {
             throw new RuntimeException("Directory not found: " + directory);
         }
 
-        new EpdSearchMainConsumer(rabbitHost, suiteDirectory).run();
+        new PGNSearchMainConsumer(rabbitHost, suiteDirectory).run();
     }
 
     private final String rabbitHost;
     private final Path suiteDirectory;
 
-    public EpdSearchMainConsumer(String rabbitHost, Path suiteDirectory) {
+    public PGNSearchMainConsumer(String rabbitHost, Path suiteDirectory) {
         if (rabbitHost == null) {
             throw new IllegalArgumentException("rabbitHost and enginesCatalog must be provided");
         }
@@ -59,13 +59,13 @@ public class EpdSearchMainConsumer implements Runnable {
             factory.setSharedExecutor(executorService);
 
             log.info("Connecting to RabbitMQ");
-            try (EpdSearchConsumer epdSearchConsumer = new EpdSearchConsumer(factory)) {
+            try (PGNSearchConsumer epdSearchConsumer = new PGNSearchConsumer(factory)) {
 
                 log.info("Connected to RabbitMQ");
 
                 epdSearchConsumer.setupQueueConsumer(this::accept);
 
-                log.info("Waiting for EpdSearchRequest");
+                log.info("Waiting for PGNSearchRequest");
 
                 Thread.sleep(Long.MAX_VALUE);
 
@@ -77,10 +77,10 @@ public class EpdSearchMainConsumer implements Runnable {
     }
 
 
-    public synchronized void accept(EpdSearchResponse epdSearchResponse) {
+    public synchronized void accept(PGNSearchResponse epdSearchResponse) {
         Path sessionDirectory = Common.createSessionDirectory(suiteDirectory, epdSearchResponse.getSessionId());
 
-        log.info("Saving EpdSearchResponse for {}", epdSearchResponse.getSessionId());
+        log.info("Saving PGNSearchResponse for {}", epdSearchResponse.getSessionId());
 
         String filename = String.format("epdSearchResponse_%s.ser", epdSearchResponse.getSearchId());
 

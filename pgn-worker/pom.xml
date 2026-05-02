@@ -90,7 +90,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>net.chesstango.pgn.worker.EpdSearchWorkerMain</mainClass>
+                                    <mainClass>net.chesstango.pgn.worker.PGNSearchWorkerMain</mainClass>
                                 </transformer>
                             </transformers>
                             <filters>

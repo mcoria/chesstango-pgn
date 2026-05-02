@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public record EpdAgregateModel(List<PGNSearchResult> PGNSearchResults,
-                               EpdSearchModel epdSearchModel,
+                               PGNSearchModel epdSearchModel,
                                BoardModel boardModel,
                                NodesDepthModel nodesDepthModel,
                                NodesTypesModel nodesTypesModel,
@@ -27,7 +27,7 @@ public record EpdAgregateModel(List<PGNSearchResult> PGNSearchResults,
                                EvaluationModel evaluationReportModel,
                                TranspositionModel transpositionModel) {
     public static EpdAgregateModel load(String suiteName, List<PGNSearchResult> PGNSearchResults) {
-        EpdSearchModel epdSearchModel = new EpdSearchModel().collectStatistics(suiteName, PGNSearchResults);
+        PGNSearchModel epdSearchModel = new PGNSearchModel().collectStatistics(suiteName, PGNSearchResults);
         BoardModel boardModel = new BoardModel().collectStatistics(suiteName, PGNSearchResults.stream().map(PGNSearchResult::getSearchResult).toList());
         NodesDepthModel nodesDepthModel = new NodesDepthModel().collectStatistics(suiteName, PGNSearchResults.stream().map(PGNSearchResult::getSearchResult).toList());
         NodesTypesModel nodesTypesModel = new NodesTypesModel().collectStatistics(suiteName, PGNSearchResults.stream().map(PGNSearchResult::getSearchResult).toList());

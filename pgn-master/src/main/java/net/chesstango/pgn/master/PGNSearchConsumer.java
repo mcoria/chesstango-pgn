@@ -4,7 +4,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.pgn.worker.EpdSearchResponse;
+import net.chesstango.pgn.worker.PGNSearchResponse;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -15,7 +15,7 @@ import java.util.function.Consumer;
  */
 
 @Slf4j
-public class EpdSearchConsumer implements AutoCloseable {
+public class PGNSearchConsumer implements AutoCloseable {
 
     private final Connection connection;
 
@@ -24,7 +24,7 @@ public class EpdSearchConsumer implements AutoCloseable {
     private String cTag;
 
 
-    public EpdSearchConsumer(ConnectionFactory factory) throws IOException, TimeoutException {
+    public PGNSearchConsumer(ConnectionFactory factory) throws IOException, TimeoutException {
         this.connection = factory.newConnection();
         this.channel = connection.createChannel();
         this.channel.basicQos(1);
@@ -38,11 +38,11 @@ public class EpdSearchConsumer implements AutoCloseable {
     }
 
 
-    public void setupQueueConsumer(Consumer<EpdSearchResponse> epdSearchResponseConsumer) {
+    public void setupQueueConsumer(Consumer<PGNSearchResponse> epdSearchResponseConsumer) {
         try {
-            cTag = channel.basicConsume(EpdSearchResponse.PGN_RESPONSES_QUEUE_NAME, false, (consumerTag, delivery) -> {
+            cTag = channel.basicConsume(PGNSearchResponse.PGN_RESPONSES_QUEUE_NAME, false, (consumerTag, delivery) -> {
 
-                EpdSearchResponse response = EpdSearchResponse.decodeResponse(delivery.getBody());
+                PGNSearchResponse response = PGNSearchResponse.decodeResponse(delivery.getBody());
 
                 epdSearchResponseConsumer.accept(response);
 

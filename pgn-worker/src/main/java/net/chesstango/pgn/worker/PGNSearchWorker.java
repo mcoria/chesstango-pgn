@@ -14,10 +14,10 @@ import java.util.stream.Stream;
  * @author Mauricio Coria
  */
 @Slf4j
-class EpdSearchWorker implements Function<EpdSearchRequest, EpdSearchResponse> {
+class PGNSearchWorker implements Function<PGNSearchRequest, PGNSearchResponse> {
 
     @Override
-    public EpdSearchResponse apply(EpdSearchRequest epdSearchRequest) {
+    public PGNSearchResponse apply(PGNSearchRequest epdSearchRequest) {
         log.info("[{}] Running EPD search entries={}, depth={}, timeOut={}", epdSearchRequest.getSessionId(), epdSearchRequest.getEpdList().size(), epdSearchRequest.getDepth(), epdSearchRequest.getTimeOut());
         PGNSearch PGNSearch = new PGNSearch()
                 .setDepth(epdSearchRequest.getDepth());
@@ -34,7 +34,7 @@ class EpdSearchWorker implements Function<EpdSearchRequest, EpdSearchResponse> {
 
         log.info("[{}] Completed EPD search entries={}, depth={}, timeOut={}", epdSearchRequest.getSessionId(), epdSearchRequest.getEpdList().size(), epdSearchRequest.getDepth(), epdSearchRequest.getTimeOut());
 
-        return new EpdSearchResponse()
+        return new PGNSearchResponse()
                 .setPGNSearchResults(PGNSearchResults)
                 .setSessionId(epdSearchRequest.getSessionId())
                 .setSearchId(epdSearchRequest.getSearchId());

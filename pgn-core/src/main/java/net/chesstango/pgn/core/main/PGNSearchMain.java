@@ -1,7 +1,7 @@
 package net.chesstango.pgn.core.main;
 
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.pgn.core.report.EpdSearchReportSaver;
+import net.chesstango.pgn.core.report.PGNSearchReportSaver;
 import net.chesstango.pgn.core.search.PGNSearch;
 import net.chesstango.pgn.core.search.PGNSearchResult;
 import net.chesstango.pgn.core.search.SearchSupplier;
@@ -67,13 +67,13 @@ public class PGNSearchMain implements Runnable {
     private final List<Path> epdFiles;
     private final int depth;
     private final int timeOut;
-    private final EpdSearchReportSaver epdSearchReportSaver;
+    private final PGNSearchReportSaver epdSearchReportSaver;
 
     public PGNSearchMain(List<Path> epdFiles, int depth, int timeOut, Path sessionDirectory) {
         this.epdFiles = epdFiles;
         this.depth = depth;
         this.timeOut = timeOut;
-        this.epdSearchReportSaver = new EpdSearchReportSaver(sessionDirectory);
+        this.epdSearchReportSaver = new PGNSearchReportSaver(sessionDirectory);
     }
 
     @Override

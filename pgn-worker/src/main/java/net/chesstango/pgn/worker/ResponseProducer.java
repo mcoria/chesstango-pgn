@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-import static net.chesstango.pgn.worker.EpdSearchResponse.PGN_RESPONSES_QUEUE_NAME;
+import static net.chesstango.pgn.worker.PGNSearchResponse.PGN_RESPONSES_QUEUE_NAME;
 
 
 /**
@@ -21,7 +21,7 @@ public class ResponseProducer {
         channel.queueDeclare(PGN_RESPONSES_QUEUE_NAME, false, false, false, null);
     }
 
-    public void publish(EpdSearchResponse epdSearchResponse) {
+    public void publish(PGNSearchResponse epdSearchResponse) {
         try {
             AMQP.BasicProperties props = new AMQP.BasicProperties
                     .Builder()

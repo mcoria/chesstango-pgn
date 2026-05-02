@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class EpdSearchPrinter implements Printer {
+public class PGNSearchPrinter implements Printer {
 
     @Setter
     @Accessors(chain = true)
@@ -19,17 +19,17 @@ public class EpdSearchPrinter implements Printer {
 
     @Setter
     @Accessors(chain = true)
-    private String reportTitle = "EpdSearchReport";
+    private String reportTitle = "PGNSearchReport";
 
     @Setter
     @Accessors(chain = true)
-    private EpdSearchModel reportModel;
+    private PGNSearchModel reportModel;
 
 
     @Override
-    public EpdSearchPrinter print() {
+    public PGNSearchPrinter print() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
-        out.printf("EpdSearchReport: %s%n%n", reportModel.reportTitle);
+        out.printf("PGNSearchReport: %s%n%n", reportModel.reportTitle);
 
         out.printf("Searches        : %d%n", reportModel.searches);
         out.printf("Success rate    : %d%%%n", reportModel.successRate);
@@ -45,8 +45,8 @@ public class EpdSearchPrinter implements Printer {
         return this;
     }
 
-    public EpdSearchPrinter withEdpEntries(List<PGNSearchResult> edpEntries) {
-        this.reportModel = new EpdSearchModel().collectStatistics(reportTitle, edpEntries);
+    public PGNSearchPrinter withEdpEntries(List<PGNSearchResult> edpEntries) {
+        this.reportModel = new PGNSearchModel().collectStatistics(reportTitle, edpEntries);
         return this;
     }
 

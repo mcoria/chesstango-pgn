@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public record EpdAgregateModel(List<PGNSearchResult> PGNSearchResults,
+public record PGNAgregateModel(List<PGNSearchResult> PGNSearchResults,
                                PGNSearchModel epdSearchModel,
                                BoardModel boardModel,
                                NodesDepthModel nodesDepthModel,
@@ -26,7 +26,7 @@ public record EpdAgregateModel(List<PGNSearchResult> PGNSearchResults,
                                PrincipalVariationIterationModel principalVariationIterationReportModel,
                                EvaluationModel evaluationReportModel,
                                TranspositionModel transpositionModel) {
-    public static EpdAgregateModel load(String suiteName, List<PGNSearchResult> PGNSearchResults) {
+    public static PGNAgregateModel load(String suiteName, List<PGNSearchResult> PGNSearchResults) {
         PGNSearchModel epdSearchModel = new PGNSearchModel().collectStatistics(suiteName, PGNSearchResults);
         BoardModel boardModel = new BoardModel().collectStatistics(suiteName, PGNSearchResults.stream().map(PGNSearchResult::getSearchResult).toList());
         NodesDepthModel nodesDepthModel = new NodesDepthModel().collectStatistics(suiteName, PGNSearchResults.stream().map(PGNSearchResult::getSearchResult).toList());
@@ -36,6 +36,6 @@ public record EpdAgregateModel(List<PGNSearchResult> PGNSearchResults,
         PrincipalVariationModel principalVariationReportModel = new PrincipalVariationModel().collectStatistics(suiteName, PGNSearchResults.stream().map(PGNSearchResult::getSearchResult).toList());
         PrincipalVariationIterationModel principalVariationIterationReportModel = new PrincipalVariationIterationModel().collectStatistics(suiteName, PGNSearchResults.stream().map(PGNSearchResult::getSearchResult).toList());
         TranspositionModel transpositionReportModel = new TranspositionModel().collectStatistics(suiteName, PGNSearchResults.stream().map(PGNSearchResult::getSearchResult).toList());
-        return new EpdAgregateModel(PGNSearchResults, epdSearchModel, boardModel, nodesDepthModel, nodesTypesModel, iterationEvaluationModel, principalVariationReportModel, principalVariationIterationReportModel, evaluationReportModel, transpositionReportModel);
+        return new PGNAgregateModel(PGNSearchResults, epdSearchModel, boardModel, nodesDepthModel, nodesTypesModel, iterationEvaluationModel, principalVariationReportModel, principalVariationIterationReportModel, evaluationReportModel, transpositionReportModel);
     }
 }

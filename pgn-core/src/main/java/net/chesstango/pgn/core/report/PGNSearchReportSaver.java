@@ -12,7 +12,7 @@ import java.util.List;
 public class PGNSearchReportSaver {
     private final Path directory;
 
-    private EpdAgregateModel epdAgregateModel;
+    private PGNAgregateModel pgnAgregateModel;
     private SummaryModel summaryModel;
 
 
@@ -21,14 +21,14 @@ public class PGNSearchReportSaver {
     }
 
     public void loadModel(String sessionId, List<PGNSearchResult> PGNSearchResults) {
-        this.epdAgregateModel = EpdAgregateModel.load(sessionId, PGNSearchResults);
-        this.summaryModel = new SummaryModel().collectStatistics(sessionId, epdAgregateModel);
+        this.pgnAgregateModel = PGNAgregateModel.load(sessionId, PGNSearchResults);
+        this.summaryModel = new SummaryModel().collectStatistics(sessionId, pgnAgregateModel);
     }
 
     public void saveReport(String suiteName) {
         ReportToFile reportToFile = new ReportToFile(directory);
-        reportToFile.save(String.format("%s-report.txt", suiteName), new EpdAgregateReport()
-                .setEpdAgregateModel(epdAgregateModel)
+        reportToFile.save(String.format("%s-report.txt", suiteName), new PGNAgregateReport()
+                .setPgnAgregateModel(pgnAgregateModel)
         );
     }
 

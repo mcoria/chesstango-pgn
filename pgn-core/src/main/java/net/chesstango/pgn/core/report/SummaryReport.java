@@ -48,7 +48,7 @@ public class SummaryReport implements Report {
                                               PrincipalVariationIterationModel principalVariationIterationReportModel,
                                               TranspositionModel transpositionModel) {
 
-        reportModel = new SummaryModel().collectStatistics(SESSION_DATE, new EpdAgregateModel(PGNSearchResults, epdSearchModel, boardModel, nodesDepthModel, nodesTypesModel, evaluationIterationModel, principalVariationReportModel, principalVariationIterationReportModel, evaluationReportModel, transpositionModel));
+        reportModel = new SummaryModel().collectStatistics(SESSION_DATE, new PGNAgregateModel(PGNSearchResults, epdSearchModel, boardModel, nodesDepthModel, nodesTypesModel, evaluationIterationModel, principalVariationReportModel, principalVariationIterationReportModel, evaluationReportModel, transpositionModel));
 
         return this;
     }

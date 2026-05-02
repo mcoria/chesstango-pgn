@@ -21,60 +21,60 @@ import java.util.List;
 @Setter
 @Getter
 @Accessors(chain = true)
-public class EpdAgregateReport implements Report {
+public class PGNAgregateReport implements Report {
 
-    private EpdAgregateModel epdAgregateModel;
+    private PGNAgregateModel pgnAgregateModel;
 
     @Override
-    public EpdAgregateReport printReport(PrintStream out) {
+    public PGNAgregateReport printReport(PrintStream out) {
 
         out.printf("Version: %s\n", Tango.ENGINE_VERSION);
 
         new PGNSearchReport()
-                .setReportModel(epdAgregateModel.epdSearchModel())
+                .setReportModel(pgnAgregateModel.epdSearchModel())
                 .printReport(out);
 
         new BoardReport()
-                .setReportModel(epdAgregateModel.boardModel())
+                .setReportModel(pgnAgregateModel.boardModel())
                 .printReport(out);
 
         new NodesDepthReport()
-                .setReportModel(epdAgregateModel.nodesDepthModel())
+                .setReportModel(pgnAgregateModel.nodesDepthModel())
                 .withCutoffStatistics()
                 .withNodesVisitedStatistics()
                 .printReport(out);
 
         new NodesTypesReport()
-                .setReportModel(epdAgregateModel.nodesTypesModel())
+                .setReportModel(pgnAgregateModel.nodesTypesModel())
                 .printReport(out);
 
         new EvaluationIterationReport()
-                .setReportModel(epdAgregateModel.evaluationIterationModel())
+                .setReportModel(pgnAgregateModel.evaluationIterationModel())
                 .printReport(out);
 
         new PrincipalVariationReport()
-                .setReportModel(epdAgregateModel.principalVariationReportModel())
+                .setReportModel(pgnAgregateModel.principalVariationReportModel())
                 .printReport(out);
 
         new PrincipalVariationIterationReport()
-                .setReportModel(epdAgregateModel.principalVariationIterationReportModel())
+                .setReportModel(pgnAgregateModel.principalVariationIterationReportModel())
                 .printReport(out);
 
         new EvaluationReport()
-                .setReportModel(epdAgregateModel.evaluationReportModel())
+                .setReportModel(pgnAgregateModel.evaluationReportModel())
                 //.withExportEvaluations()
                 .withEvaluationsStatistics()
                 .printReport(out);
 
         new TranspositionReport()
-                .setTranspositionModel(epdAgregateModel.transpositionModel())
+                .setTranspositionModel(pgnAgregateModel.transpositionModel())
                 .printReport(out);
 
         return this;
     }
 
-    public EpdAgregateReport withEpdSearchResults(String suiteName, List<PGNSearchResult> PGNSearchResults) {
-        this.epdAgregateModel = EpdAgregateModel.load(suiteName, PGNSearchResults);
+    public PGNAgregateReport withEpdSearchResults(String suiteName, List<PGNSearchResult> PGNSearchResults) {
+        this.pgnAgregateModel = PGNAgregateModel.load(suiteName, PGNSearchResults);
         return this;
     }
 

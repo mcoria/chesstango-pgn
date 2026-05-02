@@ -40,7 +40,7 @@ public class EpdSearchConsumer implements AutoCloseable {
 
     public void setupQueueConsumer(Consumer<EpdSearchResponse> epdSearchResponseConsumer) {
         try {
-            cTag = channel.basicConsume(EpdSearchResponse.EPD_RESPONSES_QUEUE_NAME, false, (consumerTag, delivery) -> {
+            cTag = channel.basicConsume(EpdSearchResponse.PGN_RESPONSES_QUEUE_NAME, false, (consumerTag, delivery) -> {
 
                 EpdSearchResponse response = EpdSearchResponse.decodeResponse(delivery.getBody());
 

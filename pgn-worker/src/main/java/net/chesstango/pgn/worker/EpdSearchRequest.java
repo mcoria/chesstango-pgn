@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 public class EpdSearchRequest implements Serializable {
-    public final static String EPD_REQUESTS_QUEUE_NAME = "epd_requests";
+    public final static String PGN_REQUESTS_QUEUE_NAME = "pgn_requests";
 
     @Serial
     private static final long serialVersionUID = 1L;

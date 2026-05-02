@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-import static net.chesstango.pgn.worker.EpdSearchRequest.EPD_REQUESTS_QUEUE_NAME;
+import static net.chesstango.pgn.worker.EpdSearchRequest.PGN_REQUESTS_QUEUE_NAME;
 
 /**
  * @author Mauricio Coria
@@ -23,7 +23,7 @@ class RequestConsumer {
 
     public EpdSearchRequest readMessage() throws IOException {
         do {
-            GetResponse response = channel.basicGet(EPD_REQUESTS_QUEUE_NAME, true);
+            GetResponse response = channel.basicGet(PGN_REQUESTS_QUEUE_NAME, true);
             if (response != null) {
                 return EpdSearchRequest.decodeRequest(response.getBody());
             } else {

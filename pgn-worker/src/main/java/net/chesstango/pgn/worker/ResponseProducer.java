@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-import static net.chesstango.pgn.worker.EpdSearchResponse.EPD_RESPONSES_QUEUE_NAME;
+import static net.chesstango.pgn.worker.EpdSearchResponse.PGN_RESPONSES_QUEUE_NAME;
 
 
 /**
@@ -18,7 +18,7 @@ public class ResponseProducer {
 
     public ResponseProducer(Channel channel) throws IOException {
         this.channel = channel;
-        channel.queueDeclare(EPD_RESPONSES_QUEUE_NAME, false, false, false, null);
+        channel.queueDeclare(PGN_RESPONSES_QUEUE_NAME, false, false, false, null);
     }
 
     public void publish(EpdSearchResponse epdSearchResponse) {
@@ -27,7 +27,7 @@ public class ResponseProducer {
                     .Builder()
                     .build();
             byte[] message = epdSearchResponse.encodeResponse();
-            channel.basicPublish("", EPD_RESPONSES_QUEUE_NAME, props, message);
+            channel.basicPublish("", PGN_RESPONSES_QUEUE_NAME, props, message);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -20,25 +20,25 @@ import java.util.stream.Stream;
  * @author Mauricio Coria
  */
 @Setter
-public class EpdFilter {
+public class PGNFilter {
 
     private Predicate<EPD> filter;
 
     public static void main(String[] args) {
-        EpdFilter epdFilter = new EpdFilter();
+        PGNFilter PGNFilter = new PGNFilter();
 
         CommandLine parsedArgs = parseArguments(args);
 
         if (parsedArgs.hasOption('p')) {
-            epdFilter.setFilter(new PlayerFilter(parsedArgs.getOptionValue('p')));
+            PGNFilter.setFilter(new PlayerFilter(parsedArgs.getOptionValue('p')));
         } else if (parsedArgs.hasOption('b')) {
-            epdFilter.setFilter(Predicate.not(new BookFilter(createBook(parsedArgs.getOptionValue('b')))));
+            PGNFilter.setFilter(Predicate.not(new BookFilter(createBook(parsedArgs.getOptionValue('b')))));
         } else {
             throw new RuntimeException("Filter not found");
         }
 
         try (InputStream inputStream = parsedArgs.hasOption('i') ? new FileInputStream(parsedArgs.getOptionValue('i')) : System.in) {
-            epdFilter.process(inputStream, System.out, System.err);
+            PGNFilter.process(inputStream, System.out, System.err);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
